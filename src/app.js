@@ -120,6 +120,7 @@ set$.subscribe(
 );*/
 
 
+/* 4.
 const map = new Map([[1, 2], [3, 4], [5, 6]]);
 const map$ = Rx.Observable.from(map);
 
@@ -133,4 +134,4 @@ map$.subscribe(
     complete => {
         console.log('completed');
     }
-);
+);*/
