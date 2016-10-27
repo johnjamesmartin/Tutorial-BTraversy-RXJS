@@ -63,6 +63,7 @@ moveStream$.subscribe(
 */
 
 
+/* 2.
 
 const numbers = [33, 44, 55, 66, 77];
 const numbers$ = Rx.Observable.from(numbers);
@@ -92,6 +93,22 @@ posts$.subscribe(
     post => {
         console.log(post);
         $('#posts').append('<li><h3>' + post.title + '</h3></li><p>' + post.body + '</p>')
+    },
+    err => {
+        console.log(err);
+    },
+    complete => {
+        console.log('completed');
+    }
+); */
+
+
+const set = new Set(['hello', 42, { title: 'My title'} ]);
+const set$ = Rx.Observable.from(set);
+
+set$.subscribe(
+    v => {
+        console.log(v);
     },
     err => {
         console.log(err);

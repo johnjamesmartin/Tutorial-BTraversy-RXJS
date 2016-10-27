@@ -117,24 +117,50 @@
 	);
 	*/
 
-	var numbers = [33, 44, 55, 66, 77];
-	var numbers$ = _Rx2.default.Observable.from(numbers);
+	/* 2.
 
-	numbers$.subscribe(function (v) {
+	const numbers = [33, 44, 55, 66, 77];
+	const numbers$ = Rx.Observable.from(numbers);
+
+	numbers$.subscribe(
+	    v => {
+	        console.log(v);
+	    },
+	    err => {
+	        console.log(err);
+	    },
+	    complete => {
+	        console.log('completed');
+	    }
+	);
+
+
+	const posts = [
+	    { title: 'Post One', body: 'This is the body' },
+	    { title: 'Post Two', body: 'This is the body' },
+	    { title: 'Post Three', body: 'This is the body' }
+	];
+
+	const posts$ = Rx.Observable.from(posts);
+
+	posts$.subscribe(
+	    post => {
+	        console.log(post);
+	        $('#posts').append('<li><h3>' + post.title + '</h3></li><p>' + post.body + '</p>')
+	    },
+	    err => {
+	        console.log(err);
+	    },
+	    complete => {
+	        console.log('completed');
+	    }
+	); */
+
+	var set = new Set(['hello', 42, { title: 'My title' }]);
+	var set$ = _Rx2.default.Observable.from(set);
+
+	set$.subscribe(function (v) {
 	    console.log(v);
-	}, function (err) {
-	    console.log(err);
-	}, function (complete) {
-	    console.log('completed');
-	});
-
-	var posts = [{ title: 'Post One', body: 'This is the body' }, { title: 'Post Two', body: 'This is the body' }, { title: 'Post Three', body: 'This is the body' }];
-
-	var posts$ = _Rx2.default.Observable.from(posts);
-
-	posts$.subscribe(function (post) {
-	    console.log(post);
-	    (0, _jquery2.default)('#posts').append('<li><h3>' + post.title + '</h3></li><p>' + post.body + '</p>');
 	}, function (err) {
 	    console.log(err);
 	}, function (complete) {
