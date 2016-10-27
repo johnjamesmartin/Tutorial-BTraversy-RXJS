@@ -188,7 +188,8 @@
 	    }
 	);*/
 
-	var source$ = new _Rx2.default.Observable(function (observer) {
+	/*
+	const source$ = new Rx.Observable(observer => {
 	    console.log('creating observable');
 
 	    // emit message
@@ -197,20 +198,59 @@
 
 	    observer.error(new Error('Error: something went wrong'));
 
-	    setTimeout(function () {
+	    setTimeout(() => {
 	        observer.next('yet another value');
 	        observer.complete();
 	    }, 3000);
 	});
 
-	source$.catch(function (err) {
-	    return _Rx2.default.Observable.of(err);
-	}).subscribe(function (x) {
+	source$
+	.catch(err => Rx.Observable.of(err))
+	.subscribe(
+	    x => {
+	        console.log(x);
+	    },
+	    err => {
+	        console.log(err);
+	    },
+	    complete => {
+	        console.log('completed');
+	    }
+	);*/
+
+	var myPromise = new Promise(function (resolve, reject) {
+	    console.log('creating promise');
+	    setTimeout(function () {
+	        resolve('hello from promise');
+	    }, 3000);
+	});
+
+	/*
+	myPromise.then(x => {
 	    console.log(x);
-	}, function (err) {
-	    console.log(err);
-	}, function (complete) {
-	    console.log('completed');
+	});
+
+	// or...
+
+	const source$ = Rx.Observable.fromPromise(myPromise);
+	source$.subscribe(x => console.log(x));
+	*/
+
+	function getUser(username) {
+	    return _jquery2.default.ajax({
+	        url: 'https://api.github.com/users/' + username,
+	        dataType: 'jsonp'
+	    }).promise();
+	}
+
+	var inputSource$ = _Rx2.default.Observable.fromEvent((0, _jquery2.default)('#input'), 'keyup');
+
+	inputSource$.subscribe(function (e) {
+	    _Rx2.default.Observable.fromPromise(getUser(e.target.value)).subscribe(function (x) {
+	        (0, _jquery2.default)('#name').text(x.data.login);
+	        (0, _jquery2.default)('#repos').text('Repos: ' + x.data.public_repos);
+	        (0, _jquery2.default)('#bio').text('Bio: ' + x.data.bio);
+	    });
 	});
 
 /***/ },

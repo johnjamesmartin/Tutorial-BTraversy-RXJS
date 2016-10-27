@@ -137,6 +137,7 @@ map$.subscribe(
 );*/
 
 
+/*
 const source$ = new Rx.Observable(observer => {
     console.log('creating observable');
 
@@ -164,4 +165,42 @@ source$
     complete => {
         console.log('completed');
     }
-);
+);*/
+
+
+const myPromise = new Promise((resolve, reject) => {
+    console.log('creating promise');
+    setTimeout(() => {
+        resolve('hello from promise');
+    }, 3000);
+});
+
+/*
+myPromise.then(x => {
+    console.log(x);
+});
+
+// or...
+
+const source$ = Rx.Observable.fromPromise(myPromise);
+source$.subscribe(x => console.log(x));
+*/
+
+function getUser(username) {
+    return $.ajax({
+        url: 'https://api.github.com/users/' + username,
+        dataType: 'jsonp'
+    }).promise();
+}
+
+const inputSource$ = Rx.Observable.fromEvent($('#input'), 'keyup');
+
+inputSource$.subscribe(e => {
+    Rx.Observable.fromPromise(getUser(e.target.value))
+        .subscribe(x => {
+            $('#name').text(x.data.login);
+            $('#repos').text('Repos: ' + x.data.public_repos);
+            $('#bio').text('Bio: ' + x.data.bio);
+        }
+    );
+});
