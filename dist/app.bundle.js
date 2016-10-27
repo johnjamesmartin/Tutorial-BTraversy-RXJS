@@ -56,7 +56,48 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	console.log('RxJS Boiler Running...');
+	var btn = (0, _jquery2.default)('#btn');
+	var input = (0, _jquery2.default)('#input');
+	var output = (0, _jquery2.default)('#output');
+
+	/* $ represents a stream (not required but best practice). 
+	   Log button's event observable data:*/
+
+	var btnStream$ = _Rx2.default.Observable.fromEvent(btn, 'click');
+
+	btnStream$.subscribe(function (e) {
+	    console.log(e.target.innerHTML);
+	}, function (err) {
+	    console.log(err);
+	}, function () {
+	    console.log('completed');
+	});
+
+	/* Output text value for input event observable: */
+
+	var inputStream$ = _Rx2.default.Observable.fromEvent(input, 'keyup');
+
+	inputStream$.subscribe(function (e) {
+	    console.log(e.target.value);
+	    output.append(e.target.value);
+	}, function (err) {
+	    console.log(err);
+	}, function () {
+	    console.log('completed');
+	});
+
+	/* Output X and Y co-ordinates for document event observable: */
+
+	var moveStream$ = _Rx2.default.Observable.fromEvent(document, 'mousemove');
+
+	moveStream$.subscribe(function (e) {
+	    console.log(e.target.value);
+	    output.html('X: ' + e.clientX + ' Y: ' + e.clientY);
+	}, function (err) {
+	    console.log(err);
+	}, function () {
+	    console.log('completed');
+	});
 
 /***/ },
 /* 1 */
