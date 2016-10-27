@@ -156,10 +156,26 @@
 	    }
 	); */
 
-	var set = new Set(['hello', 42, { title: 'My title' }]);
-	var set$ = _Rx2.default.Observable.from(set);
+	/* 3.
+	const set = new Set(['hello', 42, { title: 'My title'} ]);
+	const set$ = Rx.Observable.from(set);
 
-	set$.subscribe(function (v) {
+	set$.subscribe(
+	    v => {
+	        console.log(v);
+	    },
+	    err => {
+	        console.log(err);
+	    },
+	    complete => {
+	        console.log('completed');
+	    }
+	);*/
+
+	var map = new Map([[1, 2], [3, 4], [5, 6]]);
+	var map$ = _Rx2.default.Observable.from(map);
+
+	map$.subscribe(function (v) {
 	    console.log(v);
 	}, function (err) {
 	    console.log(err);
