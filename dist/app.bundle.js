@@ -56,46 +56,88 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var btn = (0, _jquery2.default)('#btn');
-	var input = (0, _jquery2.default)('#input');
-	var output = (0, _jquery2.default)('#output');
+	/* 1.
+	const btn = $('#btn');
+	const input = $('#input');
+	const output = $('#output');
 
-	/* $ represents a stream (not required but best practice). 
-	   Log button's event observable data:*/
 
-	var btnStream$ = _Rx2.default.Observable.fromEvent(btn, 'click');
+	// $ represents a stream (not required but best practice). 
+	   Log button's event observable data:
 
-	btnStream$.subscribe(function (e) {
-	    console.log(e.target.innerHTML);
+	const btnStream$ = Rx.Observable.fromEvent(btn, 'click');
+
+	btnStream$.subscribe(
+	    function(e) {
+	        console.log(e.target.innerHTML);
+
+	    },
+	    function(err) {
+	        console.log(err);
+	    },
+	    function() {
+	        console.log('completed');
+	    }
+	);
+
+
+	// Output text value for input event observable:
+
+	const inputStream$ = Rx.Observable.fromEvent(input, 'keyup');
+
+	inputStream$.subscribe(
+	    function(e) {
+	        console.log(e.target.value);
+	        output.append(e.target.value);
+	    },
+	    function(err) {
+	        console.log(err);
+	    },
+	    function() {
+	        console.log('completed');
+	    }
+	);
+
+
+	// Output X and Y co-ordinates for document event observable:
+
+	const moveStream$ = Rx.Observable.fromEvent(document, 'mousemove');
+
+	moveStream$.subscribe(
+	    function(e) {
+	        console.log(e.target.value);
+	        output.html('X: ' + e.clientX + ' Y: ' + e.clientY);
+	    },
+	    function(err) {
+	        console.log(err);
+	    },
+	    function() {
+	        console.log('completed');
+	    }
+	);
+	*/
+
+	var numbers = [33, 44, 55, 66, 77];
+	var numbers$ = _Rx2.default.Observable.from(numbers);
+
+	numbers$.subscribe(function (v) {
+	    console.log(v);
 	}, function (err) {
 	    console.log(err);
-	}, function () {
+	}, function (complete) {
 	    console.log('completed');
 	});
 
-	/* Output text value for input event observable: */
+	var posts = [{ title: 'Post One', body: 'This is the body' }, { title: 'Post Two', body: 'This is the body' }, { title: 'Post Three', body: 'This is the body' }];
 
-	var inputStream$ = _Rx2.default.Observable.fromEvent(input, 'keyup');
+	var posts$ = _Rx2.default.Observable.from(posts);
 
-	inputStream$.subscribe(function (e) {
-	    console.log(e.target.value);
-	    output.append(e.target.value);
+	posts$.subscribe(function (post) {
+	    console.log(post);
+	    (0, _jquery2.default)('#posts').append('<li><h3>' + post.title + '</h3></li><p>' + post.body + '</p>');
 	}, function (err) {
 	    console.log(err);
-	}, function () {
-	    console.log('completed');
-	});
-
-	/* Output X and Y co-ordinates for document event observable: */
-
-	var moveStream$ = _Rx2.default.Observable.fromEvent(document, 'mousemove');
-
-	moveStream$.subscribe(function (e) {
-	    console.log(e.target.value);
-	    output.html('X: ' + e.clientX + ' Y: ' + e.clientY);
-	}, function (err) {
-	    console.log(err);
-	}, function () {
+	}, function (complete) {
 	    console.log('completed');
 	});
 
