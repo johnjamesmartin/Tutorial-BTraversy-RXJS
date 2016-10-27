@@ -135,3 +135,33 @@ map$.subscribe(
         console.log('completed');
     }
 );*/
+
+
+const source$ = new Rx.Observable(observer => {
+    console.log('creating observable');
+
+    // emit message
+    observer.next('hello world');
+    observer.next('another value');
+
+    observer.error(new Error('Error: something went wrong'));
+
+    setTimeout(() => {
+        observer.next('yet another value');
+        observer.complete();
+    }, 3000);
+});
+
+source$
+.catch(err => Rx.Observable.of(err))
+.subscribe(
+    x => {
+        console.log(x);
+    },
+    err => {
+        console.log(err);
+    },
+    complete => {
+        console.log('completed');
+    }
+);
