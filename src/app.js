@@ -168,6 +168,8 @@ source$
 );*/
 
 
+/* 5.
+
 const myPromise = new Promise((resolve, reject) => {
     console.log('creating promise');
     setTimeout(() => {
@@ -175,7 +177,7 @@ const myPromise = new Promise((resolve, reject) => {
     }, 3000);
 });
 
-/*
+
 myPromise.then(x => {
     console.log(x);
 });
@@ -184,7 +186,7 @@ myPromise.then(x => {
 
 const source$ = Rx.Observable.fromPromise(myPromise);
 source$.subscribe(x => console.log(x));
-*/
+
 
 function getUser(username) {
     return $.ajax({
@@ -203,4 +205,58 @@ inputSource$.subscribe(e => {
             $('#bio').text('Bio: ' + x.data.bio);
         }
     );
-});
+}); */
+
+
+/* 6.
+const source$ = Rx.Observable.interval(100)
+    .take(5);
+
+source$.subscribe(
+    x => {
+        console.log(x);
+    },
+    err => {
+        console.log(err);
+    },
+    complete => {
+        console.log('completed');
+    }
+
+);
+*/
+
+
+/*
+const source$ = Rx.Observable.timer(5000, 2000)
+    .take(5);
+
+source$.subscribe(
+    x => {
+        console.log(x);
+    },
+    err => {
+        console.log(err);
+    },
+    complete => {
+        console.log('completed');
+    }
+
+);*/
+
+
+/*
+const source$ = Rx.Observable.range(25, 100);
+
+source$.subscribe(
+    x => {
+        console.log(x);
+    },
+    err => {
+        console.log(err);
+    },
+    complete => {
+        console.log('completed');
+    }
+
+);*/
