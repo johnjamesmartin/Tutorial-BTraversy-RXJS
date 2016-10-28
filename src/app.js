@@ -241,7 +241,6 @@ source$.subscribe(
     complete => {
         console.log('completed');
     }
-
 );*/
 
 
@@ -327,8 +326,52 @@ Rx.Observable.merge(source1$, source2$)
     .subscribe(x => console.log(x));
 */
 
+/*
 const source1$ = Rx.Observable.range(0, 5).map(v => 'Source1: ' + v);
 const source2$ = Rx.Observable.range(6, 5).map(v => 'Source2: ' + v);
 
 Rx.Observable.merge(source1$, source2$)
     .subscribe(x => console.log(x));
+*/
+
+/* 9.
+Rx.Observable.of('hello')
+    .mergeMap(v => {
+        return Rx.Observable.of(v + ' everyone');
+    }
+).subscribe(x => console.log(x));
+*/
+
+
+function getUser(username) {
+    return $.ajax({
+        url: 'https://api.github.com/users/' + username,
+        dataType: 'jsonp'
+    }).promise();
+}
+
+/* BAD WAY (see good way below):
+const inputSource$ = Rx.Observable.fromEvent($('#input'), 'keyup');
+
+Rx.Observable.fromPromise(getUser(e.target.value))
+    .subscribe(x => {
+        $('#name').text(x.data.login);
+        $('#repos').text('Repos: ' + x.data.public_repos);
+        $('#bio').text('Bio: ' + x.data.bio);
+    }
+);
+*/
+
+
+const inputSource$ = Rx.Observable.fromEvent($('#input'), 'keyup')
+    .map(e => e.target.value)
+    .switchMap(v => {
+        return Rx.Observable.fromPromise(getUser(v));
+    }
+)
+
+inputSource$.subscribe(x => {
+    $('#name').text(x.data.login);
+    $('#repos').text('Repos: ' + x.data.public_repos);
+    $('#bio').text('Bio: ' + x.data.bio);
+});

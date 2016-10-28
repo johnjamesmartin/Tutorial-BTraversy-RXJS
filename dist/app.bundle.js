@@ -289,7 +289,6 @@
 	    complete => {
 	        console.log('completed');
 	    }
-
 	);*/
 
 	/*
@@ -371,15 +370,51 @@
 	    .subscribe(x => console.log(x));
 	*/
 
-	var source1$ = _Rx2.default.Observable.range(0, 5).map(function (v) {
-	    return 'Source1: ' + v;
-	});
-	var source2$ = _Rx2.default.Observable.range(6, 5).map(function (v) {
-	    return 'Source2: ' + v;
+	/*
+	const source1$ = Rx.Observable.range(0, 5).map(v => 'Source1: ' + v);
+	const source2$ = Rx.Observable.range(6, 5).map(v => 'Source2: ' + v);
+
+	Rx.Observable.merge(source1$, source2$)
+	    .subscribe(x => console.log(x));
+	*/
+
+	/* 9.
+	Rx.Observable.of('hello')
+	    .mergeMap(v => {
+	        return Rx.Observable.of(v + ' everyone');
+	    }
+	).subscribe(x => console.log(x));
+	*/
+
+	function getUser(username) {
+	    return _jquery2.default.ajax({
+	        url: 'https://api.github.com/users/' + username,
+	        dataType: 'jsonp'
+	    }).promise();
+	}
+
+	/* BAD WAY (see good way below):
+	const inputSource$ = Rx.Observable.fromEvent($('#input'), 'keyup');
+
+	Rx.Observable.fromPromise(getUser(e.target.value))
+	    .subscribe(x => {
+	        $('#name').text(x.data.login);
+	        $('#repos').text('Repos: ' + x.data.public_repos);
+	        $('#bio').text('Bio: ' + x.data.bio);
+	    }
+	);
+	*/
+
+	var inputSource$ = _Rx2.default.Observable.fromEvent((0, _jquery2.default)('#input'), 'keyup').map(function (e) {
+	    return e.target.value;
+	}).switchMap(function (v) {
+	    return _Rx2.default.Observable.fromPromise(getUser(v));
 	});
 
-	_Rx2.default.Observable.merge(source1$, source2$).subscribe(function (x) {
-	    return console.log(x);
+	inputSource$.subscribe(function (x) {
+	    (0, _jquery2.default)('#name').text(x.data.login);
+	    (0, _jquery2.default)('#repos').text('Repos: ' + x.data.public_repos);
+	    (0, _jquery2.default)('#bio').text('Bio: ' + x.data.bio);
 	});
 
 /***/ },
