@@ -336,11 +336,49 @@
 	    }
 	);*/
 
-	var users = [{ name: 'Will', age: 34 }, { name: 'Mike', age: 35 }, { name: 'Paul', age: 35 }];
+	/*
+	const users = [
+	    { name: 'Will', age: 34 },
+	    { name: 'Mike', age: 35 },
+	    { name: 'Paul', age: 35 }
+	];
 
-	var users$ = _Rx2.default.Observable.from(users).pluck('name');
+	const users$ = Rx.Observable.from(users)
+	    .pluck('name');
 
-	users$.subscribe(function (x) {
+	users$.subscribe(x => console.log(x));
+	*/
+
+	/* 8
+	Rx.Observable.of('hello')
+	    .merge(Rx.Observable.of('everyone'))
+	    .subscribe(x => console.log(x));
+	*/
+
+	/*
+	Rx.Observable.interval(2000)
+	    .merge(Rx.Observable.interval(500))
+	    .take(25)
+	    .subscribe(x => console.log(x));
+	*/
+
+	/*
+	const source1$ = Rx.Observable.interval(2000).map(v => 'Merge1: ' + v);
+	const source2$ = Rx.Observable.interval(500).map(v => 'Merge2: ' + v);
+
+	Rx.Observable.merge(source1$, source2$)
+	    .take(25)
+	    .subscribe(x => console.log(x));
+	*/
+
+	var source1$ = _Rx2.default.Observable.range(0, 5).map(function (v) {
+	    return 'Source1: ' + v;
+	});
+	var source2$ = _Rx2.default.Observable.range(6, 5).map(function (v) {
+	    return 'Source2: ' + v;
+	});
+
+	_Rx2.default.Observable.merge(source1$, source2$).subscribe(function (x) {
 	    return console.log(x);
 	});
 
